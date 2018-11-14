@@ -7,11 +7,9 @@ int bookLineLength = 200;
 
 JSONObject json;
 Verse[] verses;
-PGraphics pg;
 
 void setup() {
   size(12500, 12500);
-  pg = createGraphics(12000, 12000);
   
   verses = new Verse[31103];
   for (int i = 1; i < 31103; i++){
@@ -21,26 +19,11 @@ void setup() {
   loadData();
   
   String prevBook = "", currentBook;
-  //for (int i = 1; i <= 31102; ++i){
-  //    currentBook = verses[i].name.substring(0, 3);
-  //    if (!currentBook.equals(prevBook)){
-  //      print(currentBook , "\n");
-  //      prevBook = currentBook;
-  //      drawOnce(currentBook);
-  //      String saveName = currentBook + ".jpg";
-  //      save(saveName);
-  //      pg.beginDraw();
-  //      pg.clear();
-  //      pg.endDraw();
-  //    }
-  //}
+  
   currentBook = "GEN";
   drawOnce(currentBook);
   String saveName = currentBook + ".jpg";
   save(saveName);
-  //pg.beginDraw();
-  //pg.clear();
-  //pg.endDraw();
 }
 
 void drawOnce(String n) {
@@ -48,8 +31,6 @@ void drawOnce(String n) {
   
   String prevBook = "", currentBook;
   
-  //pg.beginDraw();
-  //textSize(150);
   for (int i = 1; i < 31103; i++){
     fill(0);
     stroke(0, 0, 0, 8);
@@ -69,12 +50,14 @@ void drawOnce(String n) {
            (float)verses[i].y, 
            (float)(cos(i * 2 * PI/numberOfPoints)*(circleRad + bookLineLength) + width/2),
            (float)(sin(i * 2 * PI/numberOfPoints)*(circleRad + bookLineLength) + height/2));
-           
-      //fill(0, 0, 0);
-      //text(currentBook, (float)verses[i].x, (float)verses[i].y); 
+      
     }
     
-    if (verses[i].name.substring(0, 3).equals(n)){
+    if (verses[i].name.substring(0, 3).equals("GEN") ||
+        verses[i].name.substring(0, 3).equals("EXO") ||
+        verses[i].name.substring(0, 3).equals("LEV") ||
+        verses[i].name.substring(0, 3).equals("NUM") ||
+        verses[i].name.substring(0, 3).equals("DEU")){
     stroke(0, 0, 0, 8);
     strokeWeight(1);
       for (Map.Entry howdy : verses[i].crossRef.entrySet()){
@@ -86,14 +69,8 @@ void drawOnce(String n) {
     }
     
   }
-  
-  //pg.endDraw();
-  //image(pg, 0, 0); 
-  //String saveName = n + ".jpg";
-  //save(saveName);
 }
  void loadData() {
-  // Load JSON file
   json = loadJSONObject("fullJson.json");
 
   for (int i = 1; i < 31103; ++i){
@@ -116,9 +93,6 @@ void drawOnce(String n) {
         }
       }
     }
-    
-    //verses[i] = tempVerse;
-    //tempVerse.crossRef.clear();
   }
  }
  
