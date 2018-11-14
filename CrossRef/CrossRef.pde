@@ -3,13 +3,14 @@ import java.util.Map;
 import processing.svg.PGraphicsSVG;
 int numberOfPoints = 31102;
 int circleRad = 5950;
+int bookLineLength = 200;
 
 JSONObject json;
 Verse[] verses;
 PGraphics pg;
 
 void setup() {
-  size(12000, 12000);
+  size(12500, 12500);
   pg = createGraphics(12000, 12000);
   
   verses = new Verse[31103];
@@ -20,44 +21,70 @@ void setup() {
   loadData();
   
   String prevBook = "", currentBook;
-  for (int i = 1; i <= 31102; ++i){
-      currentBook = verses[i].name.substring(0, 3);
-      if (!currentBook.equals(prevBook)){
-        print(currentBook , "\n");
-        prevBook = currentBook;
-        drawOnce(currentBook);
-        String saveName = currentBook + ".jpg";
-        save(saveName);
-        pg.beginDraw();
-        pg.clear();
-        pg.endDraw();
-      }
-  }
+  //for (int i = 1; i <= 31102; ++i){
+  //    currentBook = verses[i].name.substring(0, 3);
+  //    if (!currentBook.equals(prevBook)){
+  //      print(currentBook , "\n");
+  //      prevBook = currentBook;
+  //      drawOnce(currentBook);
+  //      String saveName = currentBook + ".jpg";
+  //      save(saveName);
+  //      pg.beginDraw();
+  //      pg.clear();
+  //      pg.endDraw();
+  //    }
+  //}
+  currentBook = "LEV";
+  drawOnce(currentBook);
+  String saveName = currentBook + ".jpg";
+  save(saveName);
+  //pg.beginDraw();
+  //pg.clear();
+  //pg.endDraw();
 }
 
 void drawOnce(String n) {
   background(255);
-    
-  pg.beginDraw();
+  
+  String prevBook = "", currentBook;
+  
+  //pg.beginDraw();
   for (int i = 1; i < 31103; i++){
     fill(0);
-    pg.point((float)(verses[i].x), (float)(verses[i].y));
+    stroke(0, 0, 0, 8);
+    strokeWeight(1);
+    point((float)(verses[i].x), (float)(verses[i].y));
     
     if (i % 1000 == 0){
       print("Drawing Reference Lines for each Verse: ", str(i), "\n"); 
     }
     
+    currentBook = verses[i].name.substring(0, 3);
+    if (!currentBook.equals(prevBook)){
+      prevBook = currentBook;
+      stroke(0, 0, 0, 255);
+      strokeWeight(6);
+      line((float)verses[i].x, 
+           (float)verses[i].y, 
+           (float)(cos(i * 2 * PI/numberOfPoints)*(circleRad + bookLineLength) + width/2),
+           (float)(sin(i * 2 * PI/numberOfPoints)*(circleRad + bookLineLength) + height/2));
+    }
+    
     if (verses[i].name.substring(0, 3).equals(n)){
-    pg.stroke(0, 0, 0, 8);
+    stroke(0, 0, 0, 8);
+    strokeWeight(1);
       for (Map.Entry howdy : verses[i].crossRef.entrySet()){
-        pg.line((float)verses[i].x, (float)verses[i].y, (float)verses[Integer.parseInt(howdy.getKey().toString())].x, (float)verses[Integer.parseInt(howdy.getKey().toString())].y);
+        line( (float)verses[i].x, 
+              (float)verses[i].y, 
+              (float)verses[Integer.parseInt(howdy.getKey().toString())].x, 
+              (float)verses[Integer.parseInt(howdy.getKey().toString())].y);
       }
     }
     
   }
   
-  pg.endDraw();
-  image(pg, 0, 0); 
+  //pg.endDraw();
+  //image(pg, 0, 0); 
   //String saveName = n + ".jpg";
   //save(saveName);
 }
