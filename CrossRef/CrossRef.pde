@@ -34,7 +34,7 @@ void setup() {
   //      pg.endDraw();
   //    }
   //}
-  currentBook = "LEV";
+  currentBook = "GEN";
   drawOnce(currentBook);
   String saveName = currentBook + ".jpg";
   save(saveName);
@@ -49,6 +49,7 @@ void drawOnce(String n) {
   String prevBook = "", currentBook;
   
   //pg.beginDraw();
+  //textSize(150);
   for (int i = 1; i < 31103; i++){
     fill(0);
     stroke(0, 0, 0, 8);
@@ -68,6 +69,9 @@ void drawOnce(String n) {
            (float)verses[i].y, 
            (float)(cos(i * 2 * PI/numberOfPoints)*(circleRad + bookLineLength) + width/2),
            (float)(sin(i * 2 * PI/numberOfPoints)*(circleRad + bookLineLength) + height/2));
+           
+      //fill(0, 0, 0);
+      //text(currentBook, (float)verses[i].x, (float)verses[i].y); 
     }
     
     if (verses[i].name.substring(0, 3).equals(n)){
