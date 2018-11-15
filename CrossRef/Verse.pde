@@ -2,6 +2,7 @@
 class Verse{
   
   String name;
+  int book;
   double x;
   double y;
   int referenced;
